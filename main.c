@@ -23,9 +23,7 @@ int get_number();
 int get_year();
 int get_genre();
 char *get_string(unsigned char);
-
 TRACK get_music_data();
-
 void delete_menu(LIST **);
 void edit_info_menu(LIST *);
 void sort_menu(LIST *);

@@ -383,7 +383,7 @@ void print_list_element(NODE *node)
 
 void save_list(LIST *list, char *filename)
 /**
- *  @brief Сохраниение списка в файл
+ *  @brief Сохраниение списка в csv файл
  *  ---
  *  @param LIST *list - указатель на список
  *  @param char *filename - путь до файла
@@ -408,6 +408,13 @@ void save_list(LIST *list, char *filename)
 }
 
 void get_list(LIST *list, char* filename, char separator)
+/**
+ *  @brief Получение списка из csv файла
+ *  ---
+ *  @param LIST *list - указатель на список
+ *  @param char *filename - путь до файла
+ *  @param char separator - разделитель
+ */
 {
     int slen,
         flag=1;
@@ -446,6 +453,12 @@ void get_list(LIST *list, char* filename, char separator)
 
 
 TRACK fill_node(char **s2)
+/**
+ *  @brief Заполнение структуры
+ *  ---
+ *  @param char **s2 - массив строк
+ *  @return TRACK - заполенная структура
+ */
 {
     TRACK p;
     int len1, len2, len3;
@@ -475,6 +488,14 @@ TRACK fill_node(char **s2)
 
 
 char **simple_split(char *str, int length, char sep)
+/**
+ *  @brief Разбиение строки на массив строк
+ *  ---
+ *  @param char *str - строка для разбиения
+ *  @param int length - длина строки
+ *  @param char sep - разделитель
+ *  @return сhar** - массив строк
+ */
 {
     char **str_array = NULL;
     int i,j,k,m,key,count;
