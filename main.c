@@ -13,6 +13,7 @@ enum
     INPUT_MENU,
     EDIT_MENU,
     OUTPUT_MENU,
+    INPUT_TERM_MENU,
     EDIT_INFO_MENU,
     SORT_MENU,
     DELETE_MENU
@@ -150,7 +151,7 @@ void get_database(LIST *list, char* filename, char separator)
             s2 = simple_split(s1,slen,separator);
             if(s2 != NULL)
             {
-                push(list, fill_node(s2));
+                append(list, fill_node(s2));
                 clear_str_array(s2,6);
                 free(s2);
             }
@@ -385,7 +386,14 @@ void print_menu(unsigned char menu, unsigned char *flags)
             puts("Output menu");
             puts("1. Print all list");
             puts("2. Print one track");
+            puts("3. Save list in file");
             puts("0. Return to Main Menu");
+        break;
+        case INPUT_TERM_MENU:
+            puts("Add??");
+            puts("1. Add to head");
+            puts("2. Add to tail");
+            puts("3. Add after n-th element");
         break;
         case EDIT_INFO_MENU:
             puts("Edit info menu");
@@ -418,7 +426,7 @@ void print_menu(unsigned char menu, unsigned char *flags)
 
 void input_menu(LIST *list)
 {
-    int variant,
+    unsigned variant,
         exit_flag;
     char answer;
     char *path = NULL;
@@ -435,7 +443,26 @@ void input_menu(LIST *list)
             case 1:
                 do
                 {
-                    push(list, get_music_data());
+                    do
+                    {
+                        print_menu(INPUT_TERM_MENU, NULL);
+                        scanf("%d", &variant);
+                        clean_stdin();
+                    }
+                    while (variant < 1 || variant > 3);
+                    if (variant == 1)
+                        push(list, get_music_data());
+                    else if (variant == 2)
+                        append(list, get_music_data());
+                    else
+                    {
+                        system(CLEAR);
+                        puts("Enter index");
+                        printf(">");
+                        scanf("%d", &variant);
+                        clean_stdin();
+                        insert(list, get_music_data(), variant);
+                    }
                     puts("\nDo you want to continue? (y/n)");
                     printf(">");
                     scanf("%c", &answer);
@@ -499,6 +526,9 @@ void output_menu(LIST *list)
                 }
                 while(n > len);
                 print_list_element(get(list, n-1));
+            break;
+            case 3:
+                // save to file
             break;
             case 0:
                 exit_flag = 0;

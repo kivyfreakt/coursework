@@ -109,12 +109,12 @@ void pop(LIST *list, unsigned index)
 }
 
 void append(LIST *list, TRACK data)
-/*
-    @brief Добавление нового элемента в конец списка. Сложность O(1)
-    ---
-    @param LIST *list - указетель на список.
-    @param TRACK data - данные нового элемента.
-*/
+/**
+ *  @brief Добавление нового элемента в конец списка. Сложность O(1)
+ *  ---
+ *  @param LIST *list - указетель на список.
+ *  @param TRACK data - данные нового элемента.
+ */
 {
     NODE *new_node = NULL;
 
@@ -135,15 +135,50 @@ void append(LIST *list, TRACK data)
     }
 }
 
+void insert(LIST *list, TRACK data, unsigned index)
+/**
+ *  @brief Добавление нового элемента после определенного элемента списка. Сложность O(n)
+ *  ---
+ *  @param LIST *list - указетель на список
+ *  @param TRACK data - данные нового элемента
+ *  @param unsigned index - позиция элемента
+ */
+{
+    NODE *elm = NULL;
+    NODE *new_node = NULL;
+    elm = get(list, index);
+    if (elm != NULL) 
+    {
+        new_node = malloc(sizeof(NODE));
+        new_node->data = data;
+        new_node->previous = elm;
+        new_node->next = elm->next;
+        
+        if (elm->next) 
+            elm->next->previous = new_node;
+
+        elm->next = new_node;
+    
+        if (!elm->previous)
+            list->head = elm;
+        
+        if (!elm->next)
+            list->tail = elm;
+
+        list->size++;
+    }
+    else
+        append(list, data);
+}
 
 NODE *get(LIST *list, unsigned index)
-/*
-    @brief Получение элемента списка. Сложность O(n/2) = O(n).
-    ---
-    @param LIST *list - указатель на список
-    @param unsigned index - позиция элемента
-    @return NODE - нужный элемент списка
-*/
+/**
+ *  @brief Получение элемента списка. Сложность O(n/2) = O(n).
+ *  ---
+ *  @param LIST *list - указатель на список
+ *  @param unsigned index - позиция элемента
+ *  @return NODE - нужный элемент списка
+ */
 {
     NODE *temp_node = NULL;
     int i;

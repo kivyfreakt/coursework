@@ -6,6 +6,7 @@
     push
     append
     get
+    insert
     pop
     length
     swap
@@ -64,13 +65,13 @@ void delete_list(LIST **);
 void push(LIST* list, TRACK data);
 void append(LIST *, TRACK);
 NODE *get(LIST *, unsigned);
+void insert(LIST *, TRACK, unsigned);
 void pop(LIST *, unsigned);
 void swap(LIST *, unsigned, unsigned);
 char compare(NODE *, NODE *, unsigned);
 void sort(LIST *, unsigned);
 void reverse (LIST *);
 void shuffle (LIST *);
-
 int length(LIST *);
 void print_list(LIST *);
 void print_list_element(NODE *);
