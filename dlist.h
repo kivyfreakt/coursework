@@ -10,6 +10,8 @@
     length
     swap
     sort
+    reverse
+    shuffle
 */
 
 #ifndef DLIST_H
@@ -67,6 +69,7 @@ void swap(LIST *, unsigned, unsigned);
 char compare(NODE *, NODE *, unsigned);
 void sort(LIST *, unsigned);
 void reverse (LIST *);
+void shuffle (LIST *);
 
 int length(LIST *);
 void print_list(LIST *);

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include "dlist.h"
 #include "constants.h"
 #include "help_func.h"
@@ -234,23 +235,65 @@ char compare(NODE *first, NODE *second, unsigned type)
 }
 
 
+void reverse(LIST *list)
+/**
+ *  @brief Реверс двусвязного списка. Сложность O(n)
+ *  ---
+ *  @param LIST *list - указатель на список
+ */
+{
+    NODE *left = NULL,
+         *right = NULL;
+    TRACK temp;
+         
+    left = list->head;
+    right = list->tail;
+    
+    while (left != right && left->previous != right)
+    {
+        temp = left->data;
+        left->data = right->data;
+        right->data = temp;
+        
+        left = left->next;
+        right = right->previous;
+    }
+}
+
+void shuffle(LIST *list)
+/**
+ *  @brief Случайное перемешивание двусвязного списка.
+ *  ---
+ *  @param LIST *list - указатель на список
+ */
+{
+    int i, j;
+    
+    srand(time(NULL));
+    for (i = length(list) - 1; i >= 1; i--)
+    {
+        j = rand() % (i+1);
+        swap(list, i, j);
+    }
+}
+
 int length(LIST *list)
-/*
-    @brief Получение длины списка. Сложность O(1)
-    ---
-    @param LIST *list - указатель на список
-    @return int - длина списка
-*/
+/**
+ *  @brief Получение длины списка. Сложность O(1)
+ *  ---
+ *  @param LIST *list - указатель на список
+ *  @return int - длина списка
+ */
 {
     return list->size;
 }
 
 void print_list(LIST *list)
-/*
-    @brief Вывод списка в виде таблицы
-    ---
-    @param LIST *list - указатель на список
-*/
+/**
+ *  @brief Вывод списка в виде таблицы
+ *  ---
+ *  @param LIST *list - указатель на список
+ */
 {
     unsigned count;
     NODE *temp_node = NULL;

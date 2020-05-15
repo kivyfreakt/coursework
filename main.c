@@ -534,10 +534,12 @@ void edit_menu(LIST **list)
                 sort_menu(*list);
             break;
             case 3:
-                // reverse
+                reverse(*list);
+                print_list(*list);
             break;
             case 4:
-                // random shuffle
+                shuffle(*list);
+                print_list(*list);
             break;
             case 5:
                 delete_menu(list);
@@ -608,6 +610,7 @@ void delete_menu(LIST **list)
             case 2:
                 delete_list(list);
                 print_msg("List of music was successfully delete");
+                exit_flag = 0;
             break;
             case 0:
                 exit_flag = 0;
