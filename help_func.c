@@ -26,6 +26,17 @@ void print_array(const char * const array[], unsigned len)
         printf("%d. %s \n", i, array[i]);
 }
 
+
+void clear_str_array(char **str, int n)
+{
+    int i;
+    for(i = 0;i < n;i++)
+    {
+        free(str[i]);
+        str[i]=NULL;
+    }
+}
+
 void pause()
 /**
  * @brief Замена системного ожидания

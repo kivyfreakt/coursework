@@ -75,5 +75,9 @@ void shuffle (LIST *);
 int length(LIST *);
 void print_list(LIST *);
 void print_list_element(NODE *);
+void save_list(LIST *, char *);
+TRACK fill_node(char **);
+char **simple_split(char *, int, char);
+void get_list(LIST*, char*, char);
 
 #endif

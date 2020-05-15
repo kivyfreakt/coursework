@@ -370,6 +370,148 @@ void print_list_element(NODE *node)
     pause();
 }
 
+void save_list(LIST *list, char *filename)
+/**
+ *  @brief Сохраниение списка в файл
+ *  ---
+ *  @param LIST *list - указатель на список
+ *  @param char *filename - путь до файла
+ */
+{
+    FILE *df;
+    NODE *temp_node = NULL;
+    
+    df = fopen(filename, "w");
+    if(df != NULL)
+    {
+        for (temp_node = list->head; temp_node; temp_node = temp_node->next)
+            fprintf(df, "%s;%s;%s;%d;%d;%d\n",temp_node->data.artist, temp_node->data.title,
+            temp_node->data.album, temp_node->data.number,
+            temp_node->data.year, temp_node->data.genre);
+        
+        fclose(df);
+        print_msg(FILE_SUCCESS);
+    }
+    else
+        print_msg(FILE_ERROR);
+}
+
+void get_list(LIST *list, char* filename, char separator)
+{
+    int slen,
+        flag=1;
+    char s1[MAXSTR];
+    char **s2 = NULL;
+    FILE *df;
+
+    df = fopen(filename, "r");
+    if(df != NULL)
+    {
+        while(fgets(s1,MAXSTR,df) != NULL && flag)
+        {
+            slen = strlen(s1);
+            s1[slen-1] = '\0';
+            slen = slen - 1;
+
+            s2 = simple_split(s1,slen,separator);
+            if(s2 != NULL)
+            {
+                append(list, fill_node(s2));
+                clear_str_array(s2,6);
+                free(s2);
+            }
+            else
+            {
+                flag=0;
+                puts("Row data not available!");
+            }
+        }
+        fclose(df);
+    }
+    else
+        print_msg(FILE_ERROR);
+
+}
+
+
+TRACK fill_node(char **s2)
+{
+    TRACK p;
+    int len1, len2, len3;
+
+    len1=strlen(s2[0]);
+    len2=strlen(s2[1]);
+    len3=strlen(s2[2]);
+
+    p.artist = malloc((len1+1)*sizeof(char));
+    p.title = malloc((len2+1)*sizeof(char));
+    p.album = malloc((len3+1)*sizeof(char));
+
+    if((p.artist!=NULL)&&(p.title!=NULL)&&(p.album!=NULL))
+    {
+        strcpy(p.artist, s2[0]);
+        strcpy(p.title, s2[1]);
+        strcpy(p.album, s2[2]);
+        p.number = strtol(s2[3], NULL, 10);
+        p.year = strtol(s2[4], NULL, 10);
+        p.genre = strtol(s2[5], NULL, 10);
+    }
+    else
+        puts("Out of memory! Program terminated");
+
+    return p;
+}
+
+
+char **simple_split(char *str, int length, char sep)
+{
+    char **str_array = NULL;
+    int i,j,k,m,key,count;
+    for(j=0, m=0; j < length; j++)
+        if(str[j]==sep) m++;
+
+    key=0;
+    str_array = malloc((m+1)*sizeof(char*));
+    if(str_array != NULL)
+    {
+        for(i=0,count=0;i<=m;i++,count++)
+        {
+            str_array[i] = NULL;
+            str_array[i] = malloc(length*sizeof(char));
+            if(str_array[i]!=NULL)
+                key=1;
+            else
+            {
+                key=0;
+                i=m;
+            }
+        }
+        if(key)
+        {
+            k=0;
+            m=0;
+            for(j=0;j<length;j++)
+            {
+                if(str[j]!=sep)
+                    str_array[m][j-k] = str[j];
+                else
+                {
+                    str_array[m][j-k] = '\0';
+                    k = j+1;
+                    m++;
+                }
+            }
+        }
+        else
+        {
+            clear_str_array(str_array, count);
+            free(str_array);
+        }
+     }
+     return str_array;
+}
+
+
 
 void memory_clear(TRACK *t)
 /**

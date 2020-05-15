@@ -6,5 +6,6 @@ void clean_stdin();
 void pause();
 void print_msg(char *);
 void print_header();
+void clear_str_array(char **, int);
 
 #endif

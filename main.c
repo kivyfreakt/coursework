@@ -24,11 +24,7 @@ int get_year();
 int get_genre();
 char *get_string(unsigned char);
 
-TRACK fill_node(char **);
-void clear_str_array(char **, int);
-char **simple_split(char *, int, char);
 TRACK get_music_data();
-void get_database(LIST*, char*, char);
 
 void delete_menu(LIST **);
 void edit_info_menu(LIST *);
@@ -67,7 +63,7 @@ int main()
     print_msg(HELLO);
     do
     {
-        if (musiclist == NULL)
+        if (musiclist == NULL || musiclist->head == NULL)
             flags[EDIT_DATA] = flags[PRINT_DATA] = 0;
         
         print_menu(MAIN_MENU, flags);
@@ -128,133 +124,6 @@ TRACK get_music_data()
     music.genre = get_genre();
 
     return music;
-}
-
-
-void get_database(LIST *list, char* filename, char separator)
-{
-    int slen,
-        flag=1;
-    char s1[MAXSTR];
-    char **s2 = NULL;
-    FILE *df;
-
-    df = fopen(filename, "r");
-    if(df != NULL)
-    {
-        while(fgets(s1,MAXSTR,df) != NULL && flag)
-        {
-            slen = strlen(s1);
-            s1[slen-1] = '\0';
-            slen = slen - 1;
-
-            s2 = simple_split(s1,slen,separator);
-            if(s2 != NULL)
-            {
-                append(list, fill_node(s2));
-                clear_str_array(s2,6);
-                free(s2);
-            }
-            else
-            {
-                flag=0;
-                puts("Row data not available!");
-            }
-        }
-        fclose(df);
-    }
-    else
-        print_msg(FILE_ERROR);
-
-}
-
-
-TRACK fill_node(char **s2)
-{
-    TRACK p;
-    int len1, len2, len3;
-
-    len1=strlen(s2[0]);
-    len2=strlen(s2[1]);
-    len3=strlen(s2[2]);
-
-    p.artist = malloc((len1+1)*sizeof(char));
-    p.title = malloc((len2+1)*sizeof(char));
-    p.album = malloc((len3+1)*sizeof(char));
-
-    if((p.artist!=NULL)&&(p.title!=NULL)&&(p.album!=NULL))
-    {
-        strcpy(p.artist, s2[0]);
-        strcpy(p.title, s2[1]);
-        strcpy(p.album, s2[2]);
-        p.number = strtol(s2[3], NULL, 10);
-        p.year = strtol(s2[4], NULL, 10);
-        p.genre = strtol(s2[5], NULL, 10);
-    }
-    else
-        puts("Out of memory! Program terminated");
-
-    return p;
-}
-
-
-char **simple_split(char *str, int length, char sep)
-{
-    char **str_array = NULL;
-    int i,j,k,m,key,count;
-    for(j=0, m=0; j < length; j++)
-        if(str[j]==sep) m++;
-
-    key=0;
-    str_array = malloc((m+1)*sizeof(char*));
-    if(str_array != NULL)
-    {
-        for(i=0,count=0;i<=m;i++,count++)
-        {
-            str_array[i] = NULL;
-            str_array[i] = malloc(length*sizeof(char));
-            if(str_array[i]!=NULL)
-                key=1;
-            else
-            {
-                key=0;
-                i=m;
-            }
-        }
-        if(key)
-        {
-            k=0;
-            m=0;
-            for(j=0;j<length;j++)
-            {
-                if(str[j]!=sep)
-                    str_array[m][j-k] = str[j];
-                else
-                {
-                    str_array[m][j-k] = '\0';
-                    k = j+1;
-                    m++;
-                }
-            }
-        }
-        else
-        {
-            clear_str_array(str_array, count);
-            free(str_array);
-        }
-     }
-     return str_array;
-}
-
-
-void clear_str_array(char **str, int n)
-{
-    int i;
-    for(i=0;i<n;i++)
-    {
-        free(str[i]);
-        str[i]=NULL;
-    }
 }
 
 
@@ -475,7 +344,7 @@ void input_menu(LIST *list)
                 puts("Input filename");
                 printf(">");
                 path = get_string(0);
-                get_database(list, path, ';');
+                get_list(list, path, ';');
                 if (list->head != NULL)
                     print_list(list);
                 free(path);
@@ -498,7 +367,8 @@ void output_menu(LIST *list)
     int variant,
         exit_flag,
         n, len;
-
+    char *path;
+    
     exit_flag = 1;
     do
     {
@@ -528,7 +398,13 @@ void output_menu(LIST *list)
                 print_list_element(get(list, n-1));
             break;
             case 3:
-                // save to file
+                system(CLEAR);
+                puts("Input filename");
+                printf(">");
+                path = get_string(0);
+                save_list(list, path);
+                free(path);
+                path = NULL;
             break;
             case 0:
                 exit_flag = 0;
@@ -574,7 +450,7 @@ void edit_menu(LIST **list)
             case 5:
                 delete_menu(list);
                 
-                if ((*list) == NULL)
+                if ((*list) == NULL || (*list)->head == NULL)
                     exit_flag = 0;
             break;
             case 0:
@@ -636,6 +512,8 @@ void delete_menu(LIST **list)
                 scanf("%u", &number);
                 clean_stdin();
                 pop(*list, number);
+                if ((*list)->head == NULL)
+                    exit_flag = 0;
             break;
             case 2:
                 delete_list(list);
