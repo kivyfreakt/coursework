@@ -46,35 +46,13 @@ void delete_list(LIST **list)
     }
 }
 
-void soft_delete_list(LIST **list)
-/*
-    @brief Удаление двусвязного списка
-*/
-{
-    NODE *temp_node = NULL;
-    NODE *previous = NULL;
-
-    if (*list != NULL)
-    {
-        temp_node = (*list)->head;
-        while (temp_node)
-        {
-            previous = temp_node;
-            temp_node = temp_node->next;
-            free(previous);
-        }
-        free(*list);
-        (*list) = NULL;
-    }
-}
-
 void push(LIST *list, TRACK data)
-/*
-    @brief Добаление нового элемента в начало списка. Сложность O(1)
-    ---
-    @param LIST *list - указатель на список
-    @param TRACK data - данные нового элемента
-*/
+/**
+ *  @brief Добаление нового элемента в начало списка. Сложность O(1)
+ *  ---
+ *  @param LIST *list - указатель на список
+ *  @param TRACK data - данные нового элемента
+ */
 {
     NODE *new_node = NULL;
 
@@ -254,6 +232,7 @@ char compare(NODE *first, NODE *second, unsigned type)
 
     return res;
 }
+
 
 int length(LIST *list)
 /*

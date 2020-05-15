@@ -3,14 +3,13 @@
 
     ---
     Доступные операции:
-    create_list - Создание двусвязного списка
-    push - Добавление элемента в начало списка
-    pop - Удаление элемента списка
-    append - Добаление в конец списка
-    pop_back - Удаление из конца списка
-    lenght - Длина списка
-    get - Получение элемента списка
-    delete_list - Удаление списка
+    push
+    append
+    get
+    pop
+    length
+    swap
+    sort
 */
 
 #ifndef DLIST_H
@@ -60,7 +59,6 @@ typedef struct list_info TRACK;
 LIST *create_list();
 void memory_clear(TRACK *t);
 void delete_list(LIST **);
-void soft_delete_list(LIST **);
 void push(LIST* list, TRACK data);
 void append(LIST *, TRACK);
 NODE *get(LIST *, unsigned);
@@ -68,6 +66,7 @@ void pop(LIST *, unsigned);
 void swap(LIST *, unsigned, unsigned);
 char compare(NODE *, NODE *, unsigned);
 void sort(LIST *, unsigned);
+void reverse (LIST *);
 
 int length(LIST *);
 void print_list(LIST *);

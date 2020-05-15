@@ -7,6 +7,17 @@
 
 // ------------------------- Прототипы функций -------------------------
 
+enum
+{
+    MAIN_MENU,
+    INPUT_MENU,
+    EDIT_MENU,
+    OUTPUT_MENU,
+    EDIT_INFO_MENU,
+    SORT_MENU,
+    DELETE_MENU
+};
+
 int get_number();
 int get_year();
 int get_genre();
@@ -18,11 +29,11 @@ char **simple_split(char *, int, char);
 TRACK get_music_data();
 void get_database(LIST*, char*, char);
 
-void delete_menu(LIST *);
+void delete_menu(LIST **);
 void edit_info_menu(LIST *);
 void sort_menu(LIST *);
 void input_menu(LIST *);
-void edit_menu(LIST *);
+void edit_menu(LIST **);
 void output_menu(LIST *);
 void print_menu(unsigned char, unsigned char *);
 void help();
@@ -50,15 +61,15 @@ int main()
     unsigned char flags[MENU_NUM];
 
     for (i = 0; i < MENU_NUM; i++)
-        flags[i] = 0;
-
-    flags[EXIT] = 1;
+        flags[i] = 1;
 
     print_msg(HELLO);
     do
     {
-
-        print_menu(0, flags);
+        if (musiclist == NULL)
+            flags[EDIT_DATA] = flags[PRINT_DATA] = 0;
+        
+        print_menu(MAIN_MENU, flags);
         scanf("%d", &variant);
         clean_stdin();
 
@@ -68,13 +79,25 @@ int main()
                 help();
             break;
             case INPUT_DATA:
+                if (musiclist == NULL)
+                    musiclist = create_list();
+                
                 input_menu(musiclist);
+                
+                if (musiclist->head != NULL)
+                    flags[EDIT_DATA] = flags[PRINT_DATA] = 1;
             break;
             case EDIT_DATA:
-                edit_menu(musiclist);
+                if (flags[EDIT_DATA])
+                    edit_menu(&musiclist);
+                else
+                    print_msg(MENU_ERROR);
             break;
             case PRINT_DATA:
-                output_menu(musiclist);
+                if (flags[PRINT_DATA])
+                    output_menu(musiclist);
+                else
+                    print_msg(MENU_ERROR);
             break;
             case EXIT:
                 flags[EXIT] = 0;
@@ -86,8 +109,7 @@ int main()
 
     }
     while(flags[EXIT]);
-
-    delete_list(&musiclist);
+    
     return 0;
 }
 
@@ -329,19 +351,66 @@ void print_menu(unsigned char menu, unsigned char *flags)
 */
 {
     system(CLEAR);
-    if (menu == 0)
+    switch (menu)
     {
-        puts("Main menu");
-        if (flags[1])
-            puts("1. Help");
-        if (flags[2])
-            puts("2. Add music list");
-        if (flags[3])
-            puts("3. Edit music list");
-        if (flags[5])
-            puts("4. Print music list");
-        if (flags[0])
-            puts("0. Exit");
+        case MAIN_MENU:
+            puts("Main menu");
+            if (flags[1])
+                puts("1. Help");
+            if (flags[2])
+                puts("2. Add music list");
+            if (flags[3])
+                puts("3. Edit music list");
+            if (flags[4])
+                puts("4. Print music list");
+            if (flags[0])
+                puts("0. Exit");
+        break;
+        case INPUT_MENU:
+            puts("Input menu");
+            puts("1. Input from term");
+            puts("2. Input from file");
+            puts("0. Return to Main Menu");
+        break;
+        case EDIT_MENU:
+            puts("Edit menu");
+            puts("1. Edit track info");
+            puts("2. Sort music list");
+            puts("3. Reverse list");
+            puts("4. Random shuffle");
+            puts("5. Delete track");
+            puts("0. Return to Main Menu");
+        break;
+        case OUTPUT_MENU:
+            puts("Output menu");
+            puts("1. Print all list");
+            puts("2. Print one track");
+            puts("0. Return to Main Menu");
+        break;
+        case EDIT_INFO_MENU:
+            puts("Edit info menu");
+            puts("1. Edit artist");
+            puts("2. Edit title");
+            puts("3. Edit album");
+            puts("4. Edit number in album");
+            puts("5. Edit year");
+            puts("0. Return to Edit Menu");
+        break;
+        case SORT_MENU:
+            puts("Sort menu");
+            puts("1. Sort by artists");
+            puts("2. Sort by title");
+            puts("3. Sort by album");
+            puts("4. Sort by number in album");
+            puts("5. Sort by year");
+            puts("0. Return to Edit Menu");
+        break;
+        case DELETE_MENU:
+            puts("Delete menu");
+            puts("1. Delete track by number");
+            puts("2. Delete all music list");
+            puts("0. Return to Edit Menu");
+        break;
     }
     printf(">");
 }
@@ -358,13 +427,7 @@ void input_menu(LIST *list)
     do
     {
 
-        system(CLEAR);
-        puts("Input menu");
-        puts("1. Input from term");
-        puts("2. Input from file");
-        puts("0. Return to Main Menu");
-        printf(">");
-
+        print_menu(INPUT_MENU, NULL);
         scanf("%d", &variant);
         clean_stdin();
         switch (variant)
@@ -412,13 +475,7 @@ void output_menu(LIST *list)
     exit_flag = 1;
     do
     {
-
-        system(CLEAR);
-        puts("Output menu");
-        puts("1. Print all list");
-        puts("2. Print one track");
-        puts("0. Return to Output Menu");
-        printf(">");
+        print_menu(OUTPUT_MENU, NULL);
 
         scanf("%d", &variant);
         clean_stdin();
@@ -456,7 +513,7 @@ void output_menu(LIST *list)
 }
 
 
-void edit_menu(LIST *list)
+void edit_menu(LIST **list)
 {
     int variant,
         exit_flag;
@@ -464,27 +521,29 @@ void edit_menu(LIST *list)
     exit_flag = 1;
     do
     {
-
-        system(CLEAR);
-        puts("Edit menu");
-        puts("1. Edit track info");
-        puts("2. Sort music list");
-        puts("3. Delete track");
-        puts("0. Return to Main Menu");
-        printf(">");
+        print_menu(EDIT_MENU, NULL);
 
         scanf("%d", &variant);
         clean_stdin();
         switch (variant)
         {
             case 1:
-                edit_info_menu(list);
+                edit_info_menu(*list);
             break;
             case 2:
-                sort_menu(list);
+                sort_menu(*list);
             break;
             case 3:
+                // reverse
+            break;
+            case 4:
+                // random shuffle
+            break;
+            case 5:
                 delete_menu(list);
+                
+                if ((*list) == NULL)
+                    exit_flag = 0;
             break;
             case 0:
                 exit_flag = 0;
@@ -507,30 +566,64 @@ void edit_info_menu(LIST *list)
 void sort_menu(LIST *list)
 {
     unsigned type;
-
-    system(CLEAR);
-    puts("Sort menu");
-    printf(">");
-    scanf("%u", &type);
-    clean_stdin();
-    if (type != 0)
-        sort(list, type);
+    
+    do 
+    {
+        print_menu(SORT_MENU, NULL);
+        scanf("%u", &type);
+        clean_stdin();
+    
+        if (type != 0)
+        {
+            sort(list, type);
+            print_list(list);
+            type = 0;
+        }
+    }
+    while (type != 0);
 }
 
-void delete_menu(LIST *list)
+void delete_menu(LIST **list)
 {
     unsigned number;
-    system(CLEAR);
-    puts("Delete menu");
-    printf(">");
-    scanf("%u", &number);
-    clean_stdin();
-    pop(list, number);
+    
+    int variant,
+        exit_flag;
+
+    exit_flag = 1;
+    do
+    {
+        
+        print_menu(DELETE_MENU, NULL);
+
+        scanf("%d", &variant);
+        clean_stdin();
+        switch (variant)
+        {
+            case 1:
+                scanf("%u", &number);
+                clean_stdin();
+                pop(*list, number);
+            break;
+            case 2:
+                delete_list(list);
+                print_msg("List of music was successfully delete");
+            break;
+            case 0:
+                exit_flag = 0;
+            break;
+            default:
+                print_msg(MENU_ERROR);
+            break;
+        }
+
+    }
+    while(exit_flag);
 }
 
 void help()
 {
-    system("CLEAR");
+    system(CLEAR);
     puts("change me!");
     pause();
 }
