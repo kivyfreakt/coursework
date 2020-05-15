@@ -63,7 +63,7 @@ int main()
     print_msg(HELLO);
     do
     {
-        if (musiclist == NULL || musiclist->head == NULL)
+        if (is_empty(musiclist))
             flags[EDIT_DATA] = flags[PRINT_DATA] = 0;
         
         print_menu(MAIN_MENU, flags);
@@ -450,7 +450,7 @@ void edit_menu(LIST **list)
             case 5:
                 delete_menu(list);
                 
-                if ((*list) == NULL || (*list)->head == NULL)
+                if (is_empty(*list))
                     exit_flag = 0;
             break;
             case 0:
@@ -512,7 +512,7 @@ void delete_menu(LIST **list)
                 scanf("%u", &number);
                 clean_stdin();
                 pop(*list, number);
-                if ((*list)->head == NULL)
+                if (is_empty(*list))
                     exit_flag = 0;
             break;
             case 2:

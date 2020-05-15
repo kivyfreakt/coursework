@@ -9,6 +9,7 @@
     insert
     pop
     length
+    is_empty
     swap
     sort
     reverse
@@ -73,6 +74,7 @@ void sort(LIST *, unsigned);
 void reverse (LIST *);
 void shuffle (LIST *);
 int length(LIST *);
+char is_empty(LIST *);
 void print_list(LIST *);
 void print_list_element(NODE *);
 void save_list(LIST *, char *);

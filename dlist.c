@@ -323,6 +323,17 @@ int length(LIST *list)
     return list->size;
 }
 
+char is_empty(LIST *list)
+/**
+ *  @brief Проверка списка на пустоту. Сложность O(1)
+ *  ---
+ *  @param LIST *list - указатель на список
+ *  @return сhar - 1 - если пустой, 0 - иначе
+ */
+{
+    return (list == NULL || list->head == NULL);
+}
+
 void print_list(LIST *list)
 /**
  *  @brief Вывод списка в виде таблицы
