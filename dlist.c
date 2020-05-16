@@ -93,7 +93,7 @@ void pop(LIST *list, unsigned index)
         if (node->next)
             node->next->previous = node->previous;
 
-        memory_clear(&node->data);
+        memory_clear(&(node->data));
     
         if (!node->previous)
             list->head = node->next;
@@ -360,7 +360,6 @@ void print_list(LIST *list)
         temp_node = temp_node->next;
         count++;
     }
-    pause();
 }
 
 
@@ -377,8 +376,6 @@ void print_list_element(NODE *node)
     printf("|%6d |%21s |%21s |%21s |%7d |%5d |%10s |\n",
         1, (node->data).artist, (node->data).title, (node->data).album,
         (node->data).number,(node->data).year, genres_array[(node->data).genre]);
-
-    pause();
 }
 
 void save_list(LIST *list, char *filename)

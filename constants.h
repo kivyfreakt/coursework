@@ -15,7 +15,6 @@
 // ------------------------- Константы-Ошибки -------------------------
 #define HELLO "Hello, user.\nThis program will help you create your music library."
 #define MENU_ERROR "Sorry, but there is no such menu item.\nTry to select another item."
-#define ZERO_ELEMENTS_ERROR "Sorry, but there is no music with this genre.\nTry to change genre."
 #define FILE_ERROR "Sorry, error of file reading. Try another file."
 #define FILE_SUCCESS "Successful file writing!"
 
