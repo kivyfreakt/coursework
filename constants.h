@@ -17,6 +17,7 @@
 #define MENU_ERROR "Sorry, but there is no such menu item.\nTry to select another item."
 #define FILE_ERROR "Sorry, error of file reading. Try another file."
 #define FILE_SUCCESS "Successful file writing!"
+#define LIST_DELETE "List of music was successfully delete"
 
 // ------------------------- Прочие контанты -------------------------
 #define GENRES_NUM 7 // Количество жанров музыки

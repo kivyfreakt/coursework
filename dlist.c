@@ -233,6 +233,12 @@ void swap(LIST *list, unsigned pos1, unsigned pos2)
 }
 
 
+LIST *search(LIST *list, TRACK search_params)
+{
+    
+}
+
+
 void sort(LIST *head, unsigned type)
 /**
  *  @brief Сортировка элементов списка методом пузырька

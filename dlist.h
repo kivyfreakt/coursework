@@ -71,6 +71,7 @@ void pop(LIST *, unsigned);
 void swap(LIST *, unsigned, unsigned);
 char compare(NODE *, NODE *, unsigned);
 void sort(LIST *, unsigned);
+LIST *search(LIST*, TRACK);
 void reverse (LIST *);
 void shuffle (LIST *);
 int length(LIST *);

@@ -12,6 +12,7 @@ enum
     MAIN_MENU,
     INPUT_MENU,
     EDIT_MENU,
+    SEARCH_MENU,
     OUTPUT_MENU,
     INPUT_TERM_MENU,
     EDIT_INFO_MENU,
@@ -26,6 +27,7 @@ char *get_string(unsigned char);
 TRACK get_music_data();
 void delete_menu(LIST **);
 void edit_info_menu(LIST *);
+void search_menu(LIST *);
 void sort_menu(LIST *);
 void input_menu(LIST *);
 void edit_menu(LIST **);
@@ -49,6 +51,7 @@ int main()
         HELP,
         INPUT_DATA,
         EDIT_DATA,
+        SEARCH_DATA,
         PRINT_DATA,
         MENU_NUM
     };
@@ -62,7 +65,7 @@ int main()
     do
     {
         if (is_empty(musiclist))
-            flags[EDIT_DATA] = flags[PRINT_DATA] = 0;
+            flags[EDIT_DATA] = flags[SEARCH_DATA] = flags[PRINT_DATA] = 0;
         
         print_menu(MAIN_MENU, flags);
         scanf("%d", &variant);
@@ -80,11 +83,17 @@ int main()
                 input_menu(musiclist);
                 
                 if (musiclist->head != NULL)
-                    flags[EDIT_DATA] = flags[PRINT_DATA] = 1;
+                    flags[EDIT_DATA] = flags[SEARCH_DATA] = flags[PRINT_DATA] = 1;
             break;
             case EDIT_DATA:
                 if (flags[EDIT_DATA])
                     edit_menu(&musiclist);
+                else
+                    print_msg(MENU_ERROR);
+            break;
+            case SEARCH_DATA:
+                if (flags[SEARCH_DATA])
+                    search_menu(musiclist);
                 else
                     print_msg(MENU_ERROR);
             break;
@@ -230,7 +239,9 @@ void print_menu(unsigned char menu, unsigned char *flags)
             if (flags[3])
                 puts("3. Edit music list");
             if (flags[4])
-                puts("4. Print music list");
+                puts("4. Search music");
+            if (flags[4])
+                puts("5. Print music list");
             if (flags[0])
                 puts("0. Exit");
         break;
@@ -428,6 +439,18 @@ void output_menu(LIST *list)
     while(exit_flag);
 }
 
+void search_menu(LIST *list)
+{
+//     TRACK search_params;
+//     LIST *temp_list = NULL;
+//     
+//     search_params = get_music_data();
+//     temp_list = search(list);
+//     print_list(temp_list);
+//     pause();
+    // удаление !
+}
+
 
 void edit_menu(LIST **list)
 {
@@ -539,7 +562,7 @@ void edit_info_menu(LIST *list)
             case 6:
                 system(CLEAR);
                 change_int = get_genre();
-                temp_node->data.year = change_int;
+                temp_node->data.genre = change_int;
             break;
             case 0:
                 exit_flag = 0;
@@ -599,7 +622,7 @@ void delete_menu(LIST **list)
             break;
             case 2:
                 delete_list(list);
-                print_msg("List of music was successfully delete");
+                print_msg(LIST_DELETE);
                 exit_flag = 0;
             break;
             case 0:

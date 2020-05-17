@@ -27,7 +27,10 @@ void print_array(const char * const array[], unsigned len)
 }
 
 
-void clear_str_array(char **str, int n)
+void clear_str_array (char **str, int n)
+/**
+ * @brief Очистка памяти
+ */
 {
     int i;
     for(i = 0;i < n;i++)
