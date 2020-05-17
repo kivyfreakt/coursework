@@ -59,19 +59,26 @@ typedef struct list_node NODE;
 typedef struct list_info TRACK;
 
 // ------------------------- Прототипы функций для списка -------------------------
+char compare_artist(TRACK, TRACK);
+char compare_title(TRACK, TRACK);
+char compare_album(TRACK, TRACK);
+char compare_number(TRACK, TRACK);
+char compare_year(TRACK, TRACK);
+char compare_genre(TRACK, TRACK);
 
 LIST *create_list();
 void memory_clear(TRACK *t);
 void delete_list(LIST **);
+void soft_delete_list(LIST **);
 void push(LIST* list, TRACK data);
 void append(LIST *, TRACK);
 NODE *get(LIST *, unsigned);
 void insert(LIST *, TRACK, unsigned);
 void pop(LIST *, unsigned);
 void swap(LIST *, unsigned, unsigned);
-char compare(NODE *, NODE *, unsigned);
+char sort_compare(NODE *, NODE *, unsigned);
 void sort(LIST *, unsigned);
-LIST *search(LIST*, TRACK);
+LIST *search(LIST*, TRACK, char(*compare)(TRACK, TRACK));
 void reverse (LIST *);
 void shuffle (LIST *);
 int length(LIST *);

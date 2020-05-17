@@ -18,6 +18,7 @@
 #define FILE_ERROR "Sorry, error of file reading. Try another file."
 #define FILE_SUCCESS "Successful file writing!"
 #define LIST_DELETE "List of music was successfully delete"
+#define SEARCH_ERROR "Sorry, but there are no elements that satisfy these conditions"
 
 // ------------------------- Прочие контанты -------------------------
 #define GENRES_NUM 7 // Количество жанров музыки

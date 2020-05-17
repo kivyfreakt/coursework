@@ -47,6 +47,28 @@ void delete_list(LIST **list)
     }
 }
 
+void soft_delete_list(LIST **list)
+/**
+ *  @brief Удаление двусвязного списка
+ */
+{
+    NODE *temp_node = NULL;
+    NODE *previous = NULL;
+
+    if (*list != NULL)
+    {
+        temp_node = (*list)->head;
+        while (temp_node)
+        {
+            previous = temp_node;
+            temp_node = temp_node->next;
+            free(previous);
+        }
+        free(*list);
+        (*list) = NULL;
+    }
+}
+
 void push(LIST *list, TRACK data)
 /**
  *  @brief Добаление нового элемента в начало списка. Сложность O(1)
@@ -233,9 +255,18 @@ void swap(LIST *list, unsigned pos1, unsigned pos2)
 }
 
 
-LIST *search(LIST *list, TRACK search_params)
+LIST *search(LIST *list, TRACK search_param, char(*compare)(TRACK, TRACK))
 {
+    LIST* search_result = NULL;
+    NODE* temp_node = NULL;
     
+    search_result = create_list();
+    if (search_result != NULL)
+        for (temp_node = list->head; temp_node; temp_node = temp_node->next)
+            if (compare(temp_node->data, search_param))
+                append(search_result, temp_node->data);
+    
+    return search_result;
 }
 
 
@@ -253,12 +284,12 @@ void sort(LIST *head, unsigned type)
     n = length(head);
     for (i = n - 1; i > 0; i--)
         for (j = 0; j < i; j++)
-            if (compare(get(head, j), get(head, j+1), type))
+            if (sort_compare(get(head, j), get(head, j+1), type))
                 swap(head, j, j+1);
 }
 
 
-char compare(NODE *first, NODE *second, unsigned type)
+char sort_compare(NODE *first, NODE *second, unsigned type)
 {
     char res;
 
@@ -546,8 +577,6 @@ char **simple_split(char *str, int length, char sep)
      return str_array;
 }
 
-
-
 void memory_clear(TRACK *t)
 /**
  *  @brief Освобождение памяти из-под полей структуры
@@ -566,3 +595,34 @@ void memory_clear(TRACK *t)
     t->title = NULL;
     t->album = NULL;
 }
+
+char compare_artist(TRACK first, TRACK second)
+{
+    return strcmp(first.artist, second.artist) == 0;
+}
+
+char compare_title(TRACK first, TRACK second)
+{
+    return strcmp(first.title, second.title) == 0;
+}
+
+char compare_album(TRACK first, TRACK second)
+{
+    return strcmp(first.album, second.album) == 0;
+}
+
+char compare_number(TRACK first, TRACK second)
+{
+    return first.number == second.number;
+}
+
+char compare_year(TRACK first, TRACK second)
+{
+    return first.year == second.year;
+}
+
+char compare_genre(TRACK first, TRACK second)
+{
+    return first.genre == second.genre;
+}
+

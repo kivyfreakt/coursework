@@ -5,8 +5,6 @@
 #include "help_func.h"
 #include "dlist.h"
 
-// ------------------------- Прототипы функций -------------------------
-
 enum
 {
     MAIN_MENU,
@@ -19,6 +17,8 @@ enum
     SORT_MENU,
     DELETE_MENU
 };
+
+// ------------------------- Прототипы функций -------------------------
 
 int get_number();
 int get_year();
@@ -262,6 +262,22 @@ void print_menu(unsigned char menu, unsigned char *flags)
             puts("5. Delete track");
             puts("0. Return to Main Menu");
         break;
+        case SEARCH_MENU:
+            system(CLEAR);
+            puts("Choose field to search for");
+            if (flags[0] == 1)
+                puts("1. Artist");
+            if (flags[1] == 1)
+                puts("2. Title");
+            if (flags[2] == 1)
+                puts("3. Album");
+            if (flags[3] == 1)
+                puts("4. Number in album");
+            if (flags[4] == 1)
+                puts("5. Year");
+            if (flags[5] == 1)
+                puts("6. Genre");
+        break;
         case OUTPUT_MENU:
             system(CLEAR);
             puts("Output menu");
@@ -441,14 +457,144 @@ void output_menu(LIST *list)
 
 void search_menu(LIST *list)
 {
-//     TRACK search_params;
-//     LIST *temp_list = NULL;
-//     
-//     search_params = get_music_data();
-//     temp_list = search(list);
-//     print_list(temp_list);
-//     pause();
-    // удаление !
+    int variant,
+        i;
+        
+    LIST *search_list = NULL,
+         *temp = NULL;
+
+    TRACK search_param;
+    char exit_flag;
+    unsigned char flags[6];
+    
+    for (i = 0; i < 6; i++)
+        flags[i] = 1;
+    
+    i = 0;
+    search_list = list;
+    do
+    {
+        print_menu(SEARCH_MENU, flags);
+
+        scanf("%d", &variant);
+        clean_stdin();
+        switch (variant)
+        {
+            case 1:
+                if (flags[0] == 1)                    
+                {
+                    search_param.artist = get_string(1);
+                    flags[0] = 0;
+                    temp = search_list;
+                    search_list = search(search_list, search_param, compare_artist);
+                    if (i != 0)
+                        soft_delete_list(&temp);
+                    i++;
+                    free(search_param.artist);
+                }
+                else
+                    print_msg(MENU_ERROR);
+            break;
+            case 2:
+                if (flags[1] == 1)                    
+                {
+                    search_param.title = get_string(2);
+                    flags[1] = 0;
+                    temp = search_list;
+                    search_list = search(search_list, search_param, compare_title);
+                    if (i != 0)
+                        soft_delete_list(&temp);
+                    i++;
+                    free(search_param.title);
+                }
+                else
+                    print_msg(MENU_ERROR);
+            break;
+            case 3:
+                if (flags[2] == 1)                    
+                {
+                    search_param.album = get_string(3);
+                    flags[2] = 0;
+                    search_list = search(search_list, search_param, compare_album);
+                    if (i != 0)
+                        soft_delete_list(&temp);
+                    i++;
+                    free(search_param.album);
+                }
+                else
+                    print_msg(MENU_ERROR);
+            break;
+            case 4:
+                if (flags[3] == 1)                    
+                {
+                    search_param.number = get_number();
+                    flags[3] = 0;
+                    temp = search_list;
+                    search_list = search(search_list, search_param, compare_number);
+                    if (i != 0)
+                        soft_delete_list(&temp);
+                    i++;
+                }
+                else
+                    print_msg(MENU_ERROR);
+            break;
+            case 5:
+                if (flags[4] == 1)                    
+                {
+                    search_param.year = get_year();
+                    flags[4] = 0;
+                    temp = search_list;
+                    search_list = search(search_list, search_param, compare_year);
+                    if (i != 0)
+                        soft_delete_list(&temp);
+                    i++;
+                }
+                else
+                    print_msg(MENU_ERROR);
+            break;
+            case 6:
+                if (flags[5] == 1)                    
+                {
+                    search_param.genre = get_genre();
+                    flags[5] = 0;
+                    temp = search_list;
+                    search_list = search(search_list, search_param, compare_genre);
+                    if (i != 0)
+                        soft_delete_list(&temp);
+                    i++;
+                }
+                else
+                    print_msg(MENU_ERROR);
+            break;
+            default:
+                print_msg(MENU_ERROR);
+            break;
+        }
+        
+        if(i != 6)
+        {
+            puts("\nDo you want to choose more param? (y/n)");
+            printf(">");
+            scanf("%c", &exit_flag);
+            clean_stdin();
+        }
+        else
+            exit_flag = 0;
+    }
+    while(exit_flag == 'Y' || exit_flag == 'y');
+    
+    if (!is_empty(search_list))
+    {
+        print_list(search_list);
+        pause();
+    }
+    else
+        print_msg(SEARCH_ERROR);
+
+    if (i != 0)
+        soft_delete_list(&search_list);
+    if (i > 2)
+        soft_delete_list(&temp);
 }
 
 
