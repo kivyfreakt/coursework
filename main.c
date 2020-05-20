@@ -380,7 +380,10 @@ void input_menu(LIST *list)
                                     puts(INDEX_ERROR);
                             }
                             while (variant < 0 || variant >= length(list));
-                            insert(list, get_music_data(), variant);
+                            if (variant == length(list)-1)
+                                append(list, get_music_data());
+                            else
+                                insert(list, get_music_data(), variant);
                         }
                         else
                             print_msg(MENU_ERROR);

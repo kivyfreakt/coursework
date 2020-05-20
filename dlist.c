@@ -182,15 +182,15 @@ void insert(LIST *list, TRACK data, unsigned index)
 
         elm->next = new_node;
     
-        if (!elm->previous)
+        if (elm->previous == NULL)
             list->head = elm;
         
-        if (!elm->next)
+        if (elm->next == NULL)
             list->tail = elm;
 
         list->size++;
     }
-}
+}   
 
 
 NODE *get(LIST *list, unsigned index)
