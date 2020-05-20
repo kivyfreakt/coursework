@@ -291,7 +291,8 @@ void print_menu(unsigned char menu, unsigned char *flags)
             puts("Add??");
             puts("1. Add to head");
             puts("2. Add to tail");
-            puts("3. Add after n-th element");
+            if (flags[0] == 1)
+                puts("3. Add after n-th element");
         break;
         case EDIT_INFO_MENU:
             puts("\nEdit info menu");
@@ -330,6 +331,7 @@ void input_menu(LIST *list)
     unsigned variant,
         exit_flag;
     char answer;
+    unsigned char flag;
     char *path = NULL;
 
     exit_flag = 1;
@@ -344,26 +346,46 @@ void input_menu(LIST *list)
             case 1:
                 do
                 {
+                    if (is_empty(list))
+                        flag = 0;
+                    else
+                        flag = 1;
+
                     do
                     {
-                        print_menu(INPUT_TERM_MENU, NULL);
+                        print_menu(INPUT_TERM_MENU, &flag);
                         scanf("%d", &variant);
                         clean_stdin();
+                        if (variant < 1 || variant > 3)
+                            print_msg(MENU_ERROR);
                     }
                     while (variant < 1 || variant > 3);
+                    
                     if (variant == 1)
                         push(list, get_music_data());
                     else if (variant == 2)
                         append(list, get_music_data());
                     else
                     {
-                        system(CLEAR);
-                        puts("Enter index");
-                        printf(">");
-                        scanf("%d", &variant);
-                        clean_stdin();
-                        insert(list, get_music_data(), variant);
+                        if (flag == 1)
+                        {
+                            do
+                            {
+                                puts("Enter index of element");
+                                printf("Length of you list is: %d\n", length(list));
+                                printf(">");
+                                scanf("%d", &variant);
+                                clean_stdin();
+                                if (variant < 0 || variant >= length(list))
+                                    puts(INDEX_ERROR);
+                            }
+                            while (variant < 0 || variant >= length(list));
+                            insert(list, get_music_data(), variant);
+                        }
+                        else
+                            print_msg(MENU_ERROR);
                     }
+                    
                     puts("\nDo you want to continue? (y/n)");
                     printf(">");
                     scanf("%c", &answer);
@@ -401,7 +423,7 @@ void output_menu(LIST *list)
 {
     int variant,
         exit_flag,
-        n, len;
+        n;
     char *path;
     
     exit_flag = 1;
@@ -419,18 +441,17 @@ void output_menu(LIST *list)
             break;
             case 2:
                 system(CLEAR);
-                len = length(list);
                 do
                 {
                     puts("Input number of list element");
-                    printf("Length of you list is: %d\n", len);
+                    printf("Length of you list is: %d\n", length(list));
                     printf(">");
                     scanf("%d", &n);
                     clean_stdin();
-                    if (n > len)
+                    if (n > length(list))
                         puts("Number can't be greater than length");
                 }
-                while(n > len);
+                while(n > length(list));
                 print_list_element(get(list, n-1));
                 pause();
             break;
@@ -760,11 +781,19 @@ void delete_menu(LIST **list)
         switch (variant)
         {
             case 1:
+                print_list(*list);
+                puts("\nEnter number of element of list");
+                printf(">");
                 scanf("%u", &number);
                 clean_stdin();
-                pop(*list, number);
+                pop(*list, number-1);
                 if (is_empty(*list))
                     exit_flag = 0;
+                else
+                {
+                    print_list(*list);
+                    pause();
+                }   
             break;
             case 2:
                 delete_list(list);

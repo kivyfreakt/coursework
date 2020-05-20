@@ -18,6 +18,7 @@
 #define FILE_ERROR "Sorry, error of file reading. Try another file."
 #define FILE_SUCCESS "Successful file writing!"
 #define LIST_DELETE "List of music was successfully delete"
+#define INDEX_ERROR "Number can't be less than 0 or greater than length"
 #define SEARCH_ERROR "Sorry, but there are no elements that satisfy these conditions"
 
 // ------------------------- Прочие контанты -------------------------

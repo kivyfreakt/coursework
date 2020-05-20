@@ -157,6 +157,7 @@ void append(LIST *list, TRACK data)
     }
 }
 
+
 void insert(LIST *list, TRACK data, unsigned index)
 /**
  *  @brief Добавление нового элемента после определенного элемента списка. Сложность O(n)
@@ -189,9 +190,8 @@ void insert(LIST *list, TRACK data, unsigned index)
 
         list->size++;
     }
-    else
-        append(list, data);
 }
+
 
 NODE *get(LIST *list, unsigned index)
 /**
@@ -491,12 +491,12 @@ TRACK fill_node(char **s2)
  *  @brief Заполнение структуры
  *  ---
  *  @param char **s2 - массив строк
- *  @return TRACK - заполенная структура
+ *  @return TRACK - заполненная структура
  */
 {
     TRACK p;
     int len1, len2, len3;
-
+    
     len1=strlen(s2[0]);
     len2=strlen(s2[1]);
     len3=strlen(s2[2]);
