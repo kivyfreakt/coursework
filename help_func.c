@@ -7,12 +7,8 @@ void clean_stdin()
  * @brief Замена функции очистки входного потока (fflush)
  */
 {
-    int c;
-    do
-    {
-        c = getchar();
-    }
-    while (c != '\n' && c != EOF);
+    char c;
+    while ( scanf("%c", &c) == 1 && c != '\n');
 }
 
 void print_array(const char * const array[], unsigned len)
@@ -27,7 +23,7 @@ void print_array(const char * const array[], unsigned len)
 }
 
 
-void clear_str_array (char **str, int n)
+void clear_str_array(char **str, int n)
 /**
  * @brief Очистка памяти
  */

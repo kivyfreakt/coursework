@@ -140,11 +140,11 @@ char *get_string(unsigned char type)
     char *s = NULL;
 
     if (type == 1)
-        printf("Enter artist of track: ");
+        printf("Enter artist of track (max string length: %d): ", MAXLEN);
     else if (type == 2)
-        printf("Enter title of track: ");
+        printf("Enter title of track (max string length: %d): ", MAXLEN);
     else if (type == 3)
-        printf("Enter album: ");
+        printf("Enter album (max string length: %d): ", MAXLEN);
 
     i = 0;
     s = malloc(sizeof(char));
@@ -259,7 +259,8 @@ void print_menu(unsigned char menu, unsigned char *flags)
             puts("2. Sort music list");
             puts("3. Reverse list");
             puts("4. Random shuffle");
-            puts("5. Delete track");
+            puts("5. Swap");
+            puts("6. Delete track");
             puts("0. Return to Main Menu");
         break;
         case SEARCH_MENU:
@@ -630,7 +631,9 @@ void search_menu(LIST *list)
 void edit_menu(LIST **list)
 {
     int variant,
-        exit_flag;
+        exit_flag,
+        first,
+        second;
 
     exit_flag = 1;
     do
@@ -658,6 +661,23 @@ void edit_menu(LIST **list)
                 pause();
             break;
             case 5:
+                do
+                {
+                    print_list(*list);
+                    puts("\nInput number of two elements");
+                    printf(">");
+                    scanf("%d %d", &first, &second);
+                    clean_stdin();
+                    if (first > length(*list) || second > length(*list)
+                        || first < 1 || second < 1)
+                        print_msg(INDEX_ERROR);
+                } while (first > length(*list) || second > length(*list) || first < 1 || second < 1);
+
+                swap(*list, first-1, second-1);
+                print_list(*list);
+                pause();
+            break;
+            case 6:
                 delete_menu(list);
                 
                 if (is_empty(*list))
@@ -755,20 +775,30 @@ void edit_info_menu(LIST *list)
 void sort_menu(LIST *list)
 {
     unsigned type;
+//     unsigned reverse;
     
     do 
     {
         print_menu(SORT_MENU, NULL);
         scanf("%u", &type);
         clean_stdin();
-    
-        if (type != 0)
+        
+        
+        if (type > 0 && type < 6)
         {
+            
+//             print_menu(SORT_MENU, NULL);
+//             scanf("%u", &reverse);
+//             clean_stdin();
+            
             sort(list, type);
+            
             print_list(list);
             pause();
             type = 0;
         }
+        else if(type != 0)
+            print_msg(MENU_ERROR);
     }
     while (type != 0);
 }
