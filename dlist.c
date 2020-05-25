@@ -545,13 +545,14 @@ char **simple_split(char *str, int length, char sep)
         if(str[j]==sep) m++;
 
     key=0;
-    str_array = malloc((m+1)*sizeof(char*));
+    str_array = calloc(m+1, sizeof(char*));
     if(str_array != NULL)
     {
+        for (i = 0; i <= m; i++)
+            str_array[i] = NULL;
         for(i=0,count=0;i<=m;i++,count++)
         {
-            str_array[i] = NULL;
-            str_array[i] = malloc(length*sizeof(char));
+            str_array[i] = calloc(length, sizeof(char));
             if(str_array[i]!=NULL)
                 key=1;
             else
