@@ -35,6 +35,7 @@ struct list_info
     int number;
 };
 
+
 struct list_node
 /*
     Структура узла списка

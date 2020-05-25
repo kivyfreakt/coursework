@@ -395,10 +395,15 @@ void input_menu(LIST *list)
                     clean_stdin();
                 }
                 while(answer == 'y' || answer == 'Y');
+                if (list->head != NULL)
+                {
+                    print_list(list);
+                    pause();
+                }
             break;
             case 2:
                 system(CLEAR);
-                puts("Input filename");
+                puts("Input filename (default: data.csv)");
                 printf(">");
                 path = get_string(0);
                 get_list(list, path, ';');
@@ -679,19 +684,22 @@ void edit_info_menu(LIST *list)
     
     char *change_str;    
     NODE *temp_node = NULL;
-    print_list(list);
+    exit_flag = 1;
     do
     {
-        puts("\nEnter number of element of list");
+        print_list(list);
+        puts("\nEnter number of element of list (or 0 to return to Edit Menu)");
         printf(">");
         scanf("%d", &variant1);
         clean_stdin();
-        if (variant1 > length(list) || variant1 <= 0)
+        if (variant1 == 0)
+           exit_flag = 0; 
+        else if (variant1 > length(list) || variant1 < 0)
             print_msg("Number should be greater than 0 and less than length");
     }
-    while(variant1 > length(list) || variant1 <= 0);
-    exit_flag = 1;
-    do
+    while(variant1 > length(list) || variant1 < 0);
+    
+    while (exit_flag)
     {
         temp_node = get(list, variant1-1);
         print_list_element(temp_node);
@@ -742,7 +750,6 @@ void edit_info_menu(LIST *list)
             break;
         }
     }
-    while(exit_flag);
 }
 
 void sort_menu(LIST *list)

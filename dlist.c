@@ -256,6 +256,14 @@ void swap(LIST *list, unsigned pos1, unsigned pos2)
 
 
 LIST *search(LIST *list, TRACK search_param, char(*compare)(TRACK, TRACK))
+/**
+ *  @brief Поиск по элементам списка
+ *  ---
+ *  @param LIST *list - список
+ *  @param TRACK search_param - параметры поиска по списку
+ *  @param сhar*()(TRACK, TRACK) - указатель на функцию сравнения
+ *  @return LIST* - список
+ */
 {
     LIST* search_result = NULL;
     NODE* temp_node = NULL;
@@ -274,7 +282,7 @@ void sort(LIST *head, unsigned type)
 /**
  *  @brief Сортировка элементов списка методом пузырька
  *  ---
- *  @param NODE *head - голова списка
+ *  @param LIST *list - список
  *  @param unsigned type - тип сортируемого значения
  *  @return NODE - отсортированный список
  */
@@ -581,7 +589,7 @@ void memory_clear(TRACK *t)
 /**
  *  @brief Освобождение памяти из-под полей структуры
  *  ---
- *  @param TRACK t - структура, у которой очищаются поля
+ *  @param TRACK* t - указатель на структуру, у которой очищаются поля
  */
 {
     if(t->artist != NULL)
