@@ -14,7 +14,8 @@ enum
     OUTPUT_MENU,
     INPUT_TERM_MENU,
     EDIT_INFO_MENU,
-    SORT_MENU,
+    SORT_MENU1,
+    SORT_MENU2,
     DELETE_MENU
 };
 
@@ -289,7 +290,6 @@ void print_menu(unsigned char menu, unsigned char *flags)
         break;
         case INPUT_TERM_MENU:
             system(CLEAR);
-            puts("Add??");
             puts("1. Add to head");
             puts("2. Add to tail");
             if (flags[0] == 1)
@@ -305,7 +305,7 @@ void print_menu(unsigned char menu, unsigned char *flags)
             puts("6. Edit genre");
             puts("0. Return to Edit Menu");
         break;
-        case SORT_MENU:
+        case SORT_MENU1:
             system(CLEAR);
             puts("Sort menu");
             puts("1. Sort by artists");
@@ -314,6 +314,11 @@ void print_menu(unsigned char menu, unsigned char *flags)
             puts("4. Sort by number in album");
             puts("5. Sort by year");
             puts("0. Return to Edit Menu");
+        break;
+        case SORT_MENU2:
+            system(CLEAR);
+            puts("1. Increase");
+            puts("2. Decrease");
         break;
         case DELETE_MENU:
             system(CLEAR);
@@ -775,24 +780,29 @@ void edit_info_menu(LIST *list)
 void sort_menu(LIST *list)
 {
     unsigned type;
-//     unsigned reverse;
+    unsigned rev;
     
     do 
     {
-        print_menu(SORT_MENU, NULL);
+        print_menu(SORT_MENU1, NULL);
         scanf("%u", &type);
         clean_stdin();
         
         
         if (type > 0 && type < 6)
         {
-            
-//             print_menu(SORT_MENU, NULL);
-//             scanf("%u", &reverse);
-//             clean_stdin();
-            
+            do
+            {
+                print_menu(SORT_MENU2, NULL);
+                scanf("%u", &rev);
+                clean_stdin();
+                if (rev > 2 || rev < 1)
+                    print_msg(MENU_ERROR);
+            }while(rev > 2 || rev < 1);
+        
             sort(list, type);
-            
+            if (rev == 2)
+                reverse(list);
             print_list(list);
             pause();
             type = 0;
