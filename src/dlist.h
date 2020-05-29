@@ -82,7 +82,7 @@ void insert(LIST *, TRACK, unsigned);
 void pop(LIST *, unsigned);
 void swap(LIST *, unsigned, unsigned);
 char sort_compare(NODE *, NODE *, unsigned);
-void sort(LIST *, unsigned);
+void sort(LIST *, int);
 LIST *search(LIST*, TRACK, char(*compare)(TRACK, TRACK));
 void reverse (LIST *);
 void shuffle (LIST *);

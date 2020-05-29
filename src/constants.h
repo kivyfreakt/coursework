@@ -20,12 +20,13 @@
 #define LIST_DELETE "List of music was successfully delete"
 #define INDEX_ERROR "Number can't be less than 0 or greater than length"
 #define SEARCH_ERROR "Sorry, but there are no elements that satisfy these conditions"
+#define INPUT_ERROR "\nSorry, but you should enter number, not string"
 
 // ------------------------- Прочие контанты -------------------------
 #define GENRES_NUM 7 // Количество жанров музыки
 #define SORT_NUM 6 // Количество видов сортировки музыки
-#define MAXLEN 25 // Максимальная длина строки (+ нуль-терминатор)
-#define MAXSTR 200 // Максимальная строка файла
+#define MAXLEN 21 // Максимальная длина строки (+ нуль-терминатор)
+#define MAXSTR 150 // Максимальная строка файла
 
 extern const char * const genres_array[GENRES_NUM];
 

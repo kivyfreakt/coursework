@@ -7,5 +7,10 @@ void pause();
 void print_msg(char *);
 void print_header();
 void clear_str_array(char **, int);
+char *get_string(unsigned char);
+int get_number();
+int get_genre();
+int get_year();
+char save_scanf(int*);
 
 #endif

@@ -278,12 +278,12 @@ LIST *search(LIST *list, TRACK search_param, char(*compare)(TRACK, TRACK))
 }
 
 
-void sort(LIST *head, unsigned type)
+void sort(LIST *head, int type)
 /**
  *  @brief Сортировка элементов списка методом пузырька
  *  ---
  *  @param LIST *list - список
- *  @param unsigned type - тип сортируемого значения
+ *  @param int type - тип сортируемого значения
  *  @return NODE - отсортированный список
  */
 {
