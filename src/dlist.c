@@ -576,6 +576,7 @@ char **simple_split(char *str, int length, char sep)
                     m++;
                 }
             }
+            str_array[m][j-k] = '\0';
         }
         else
         {

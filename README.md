@@ -28,6 +28,8 @@
 
 Ссылка на презентацию: <a href = "https://docs.google.com/presentation/d/1GUBhEG9AbZejZgfR08s8CG6jVtFfDiClSagsC0dvtyg/edit?usp=sharing">ТЫК</a>
 
+Ссылка на критику: <a href = "https://docs.google.com/document/d/1GXmWf7tfhLAJDq-Fc5btxh4ubcm_y4a3yM6V3M59BZk/edit">ТЫК</a>
+
 ## <a name="structure"></a> Структура репозитория
 
 Репозиторий содержит две папки:
