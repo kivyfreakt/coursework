@@ -26,6 +26,8 @@
 
 Для более подробной информации смотрите отчет в папке *report*.
 
+Ссылка на презентацию: <a href = "https://docs.google.com/presentation/d/1GUBhEG9AbZejZgfR08s8CG6jVtFfDiClSagsC0dvtyg/edit?usp=sharing">ТЫК</a>
+
 ## <a name="structure"></a> Структура репозитория
 
 Репозиторий содержит две папки:

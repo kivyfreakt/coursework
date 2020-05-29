@@ -27,12 +27,15 @@ struct list_info
     Информационная структура списка
 */
 {
-    char *artist;
-    char *title;
-    char *album;
-    int genre;
-    int year;
-    int number;
+    char *artist; // Адрес начала строки,
+    // которая содержит имя исполнителя
+    char *title; // Адрес начала строки, 
+    // которая содержит название музыкальной композиции
+    char *album; // Адрес начала строки,
+    // которая содержит название альбома
+    int genre; // Номер жанра музыки
+    int year; // Год создания
+    int number; // Номер в альбоме
 };
 
 
@@ -41,9 +44,9 @@ struct list_node
     Структура узла списка
 */
 {
-    struct list_info data;
-    struct list_node *next;
-    struct list_node *previous;
+    struct list_info data; // данные карточки
+    struct list_node *next; // указатель на следующий элемент списка
+    struct list_node *previous; // указатель на предыдущий элемент списка
 };
 
 struct list
@@ -51,9 +54,9 @@ struct list
     Структура списка
 */
 {
-    int size;
-    struct list_node *head;
-    struct list_node *tail;
+    int size; // размер списка
+    struct list_node *head; // указатель на первый элемент списка
+    struct list_node *tail; // указатель на последний элемент списка
 };
 
 typedef struct list LIST;
