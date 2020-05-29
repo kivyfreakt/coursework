@@ -396,7 +396,7 @@ void print_list(LIST *list)
     count = 1;
     while(temp_node)
     {
-        printf("|%6d |%21s |%21s |%21s |%7d |%5d |%10s |\n",
+        printf("|%6u |%21s |%21s |%21s |%7d |%5d |%10s |\n",
             count, (temp_node->data).artist,
             (temp_node->data).title, (temp_node->data).album,
             (temp_node->data).number,(temp_node->data).year,

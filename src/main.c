@@ -241,7 +241,7 @@ void print_menu(unsigned char menu, unsigned char *flags)
                 puts("3. Edit music list");
             if (flags[4])
                 puts("4. Search music");
-            if (flags[4])
+            if (flags[5])
                 puts("5. Print music list");
             if (flags[0])
                 puts("0. Exit");
@@ -345,7 +345,7 @@ void input_menu(LIST *list)
     {
 
         print_menu(INPUT_MENU, NULL);
-        scanf("%d", &variant);
+        scanf("%u", &variant);
         clean_stdin();
         switch (variant)
         {
@@ -360,7 +360,7 @@ void input_menu(LIST *list)
                     do
                     {
                         print_menu(INPUT_TERM_MENU, &flag);
-                        scanf("%d", &variant);
+                        scanf("%u", &variant);
                         clean_stdin();
                         if (variant < 1 || variant > 3)
                             print_msg(MENU_ERROR);
@@ -380,12 +380,12 @@ void input_menu(LIST *list)
                                 puts("Enter index of element");
                                 printf("Length of you list is: %d\n", length(list));
                                 printf(">");
-                                scanf("%d", &variant);
+                                scanf("%u", &variant);
                                 clean_stdin();
-                                if (variant < 0 || variant >= length(list))
+                                if (variant >= length(list))
                                     puts(INDEX_ERROR);
                             }
-                            while (variant < 0 || variant >= length(list));
+                            while (variant >= length(list));
                             if (variant == length(list)-1)
                                 append(list, get_music_data());
                             else
@@ -865,7 +865,7 @@ void delete_menu(LIST **list)
 void help()
 {
     system(CLEAR);
-    puts("change me!");
+    puts("This program will help you create your music library.");
     pause();
 }
 
