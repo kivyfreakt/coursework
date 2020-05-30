@@ -264,7 +264,7 @@ void output_menu(LIST *list)
                         puts("Number can't be greater than length");
                 }
                 while(n > length(list));
-                print_list_element(get(list, n-1));
+                print_list_element(n-1, get(list, n-1));
                 pause();
             break;
             case 3:
@@ -525,7 +525,7 @@ void edit_info_menu(LIST *list)
     while (exit_flag)
     {
         temp_node = get(list, variant1-1);
-        print_list_element(temp_node);
+        print_list_element(variant1-1, temp_node);
         print_menu(EDIT_INFO_MENU, NULL);
         save_scanf(&variant2);
         
@@ -657,7 +657,21 @@ void delete_menu(LIST **list)
 void help()
 {
     system(CLEAR);
-    puts("This program will help you create your music library.");
+    puts("This program will help you create your music library.\n\n");
+    puts("First you need to enter the data in the program.");
+    puts("To do this, go to item 2 and select a convenient input method. ");
+    puts("After that you will get access to all the features of the program.\n");
+    puts("Go to item 3 to edit the list. Features: ");
+    puts("1. Edit information in item");
+    puts("2. Sort music list");
+    puts("3. Reverse music list");
+    puts("4. Shuffle music list");
+    puts("5. Delete list or item\n");
+    puts("Go to item 4 to search.");
+    puts("You can search by any number of fields.\n");
+    puts("Go to item 5 to output list.");
+    puts("There are three methods available to you. You can choose any one.\n");
+    puts("Good Luck! \n");
     pause();
 }
 

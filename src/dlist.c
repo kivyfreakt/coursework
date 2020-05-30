@@ -408,7 +408,7 @@ void print_list(LIST *list)
 }
 
 
-void print_list_element(NODE *node)
+void print_list_element(int number, NODE *node)
 /**
  *  @brief Вывод элемента списка в виде таблицы
  *  ---
