@@ -419,7 +419,7 @@ void print_list_element(int number, NODE *node)
     print_header();
 
     printf("|%6d |%21s |%21s |%21s |%7d |%5d |%10s |\n",
-        1, (node->data).artist, (node->data).title, (node->data).album,
+        number+1, (node->data).artist, (node->data).title, (node->data).album,
         (node->data).number,(node->data).year, genres_array[(node->data).genre]);
 }
 
